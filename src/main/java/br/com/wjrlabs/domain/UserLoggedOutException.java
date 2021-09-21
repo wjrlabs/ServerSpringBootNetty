@@ -21,5 +21,4 @@ package br.com.wjrlabs.domain;
  */
 public class UserLoggedOutException extends RuntimeException {
 
-	private static final long serialVersionUID = -7813086909168606749L;
 }

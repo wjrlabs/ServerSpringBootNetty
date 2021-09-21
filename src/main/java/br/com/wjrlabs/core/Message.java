@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 /**
  * Informação transmitida ou recebida pelo comunicador do SCAP, em uma estrutura

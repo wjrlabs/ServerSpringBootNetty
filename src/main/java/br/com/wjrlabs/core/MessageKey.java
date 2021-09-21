@@ -1,9 +1,11 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 
 import br.com.wjrlabs.commom.types.MessageType;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Identificador de mensagem, que é composto por:
@@ -30,13 +32,16 @@ import br.com.wjrlabs.commom.types.MessageType;
  * <p>
  * 
  */
+@Getter
+@Setter
 public class MessageKey implements Serializable {
 
 	/**
 	 * Identificador único a classe
 	 */
-	private static final long serialVersionUID = 9199331624120240666L;
-	
+	private static final long serialVersionUID = -563556088778195033L;
+
+
 	/**
 	 * Tamanho da chave, em bytes.
 	 */
@@ -62,19 +67,6 @@ public class MessageKey implements Serializable {
 		this.version	= version;
 	}
 
-	/**
-	 * @return {@link MessageKey#type}
-	 */
-	public MessageType getType() {
-		return type;
-	}
-
-	/**
-	 * @return {@link MessageKey#version}
-	 */
-	public byte getVersion() {
-		return version;
-	}
 	
 	/**
 	 * Codifica a chave em uma matriz de bytes para o formato das mensagens.

@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import org.springframework.boot.web.servlet.server.Session;
 

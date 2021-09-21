@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.text.MessageFormat;
 
@@ -6,7 +6,6 @@ import javax.naming.NamingException;
 
 import org.springframework.boot.web.servlet.server.Session;
 
-import br.com.digicon.scap.client.ServiceLocator;
 import br.com.wjrlabs.commom.exceptions.CommandRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +28,7 @@ public abstract class SimpleCommand<E extends Message, U extends Session> implem
 	/**
 	 * Gerenciamento de serviços do SCAP.
 	 */
-	private ServiceLocator locator;
+	//private ServiceLocator locator;
 	
 	/**
 	 * Construtor padrão.
@@ -45,7 +44,7 @@ public abstract class SimpleCommand<E extends Message, U extends Session> implem
 			log.error(error, e);
 			throw new CommandRuntimeException(error, e);
 		}
-		this.locator	= ServiceLocator.getInstance();
+	//	this.locator	= ServiceLocator.getInstance();
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +62,7 @@ public abstract class SimpleCommand<E extends Message, U extends Session> implem
 	 * @see br.com.digicon.scap.client.ServiceLocator#getService(java.lang.Class)
 	 */
 	public <T> T getService(Class<T> remoteClass) throws NamingException {
-		return locator.getService(remoteClass);
+		return null;//locator.getService(remoteClass);
 	}
 
 	/* (non-Javadoc)

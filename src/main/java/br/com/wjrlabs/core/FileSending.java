@@ -1,17 +1,19 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.UUID;
 
-import br.com.digicon.digester.AlgorithmType;
-import sun.security.ec.ed.EdDSAParameters.Digester;
-import sun.security.ec.ed.EdDSAParameters.DigesterFactory;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Objeto para gerenciar o envio de arquivos entre servidor e os módulos.
  *
  */
+
+@Getter
+@Setter
 public class FileSending {
 	
 	/**
@@ -54,21 +56,6 @@ public class FileSending {
 		this.start			= new Date();
 	}
 	
-	/**
-	 * Recupera o NSU da operação
-	 * @return int
-	 */
-	public int getNSU() {
-		return nsu;
-	}
-	
-	/**
-	 * Recupera o UUID do arquivo.
-	 * @return
-	 */
-	public UUID getUUID() {
-		return uuid;
-	}
 	
 	/**
 	 * Recupera o tamanho do arquivo em bytes.
@@ -165,16 +152,8 @@ public class FileSending {
 	 * @return HASH na base 64.
 	 */
 	public String getHash() {
-		Digester digester = DigesterFactory.getInstance(AlgorithmType.MD5);
-		digester.update(buffer.array());
-		return digester.digest();
+		//TODO implement
+		return null;
 	}
 	
-	/**
-	 * Horário de início de transmissão do arquivo.
-	 * @return Date
-	 */
-	public Date getStart() {
-		return start;
-	}
 }

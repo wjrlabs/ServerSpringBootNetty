@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;

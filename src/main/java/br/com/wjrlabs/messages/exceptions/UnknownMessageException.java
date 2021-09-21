@@ -5,6 +5,5 @@ public class UnknownMessageException extends Exception {
 		super(message);
 	}
 
-	private static final long serialVersionUID = -919298861028393464L;
 
 }

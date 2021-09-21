@@ -1,42 +1,31 @@
-package br.com.digicon.scap.comm.codecs.exceptions;
+package br.com.wjrlabs.codecs.exceptions;
+
+import lombok.Getter;
+
 
 /**
- * Informa um erro de decodificação de mensagem para tratamento de mensagens recebidas.
  * 
-
+ * @author Wagner Alves
+ * 
+ * Handle decoding excpetions
+ *
  */
+@Getter
 public class DecoderException extends RuntimeException {
 
-	/** Identificador único de versão da classe. */
-	private static final long serialVersionUID = -8277039623310924389L;
-	
-	/**
-	 * Bytes recebidos no decodificador.
-	 */
+	private static final long serialVersionUID = 6647786818318923798L;
 	protected byte[] frame;
 
-	/**
-	 * Construtor padrão.
-	 * @param frame {@link #frame()}
-	 */
 	public DecoderException(byte[] frame) {
 		super();
 		this.frame = frame;
 	}
 	
-	/**
-	 * Construtor padrão.
-	 * @param frame {@link #frame}
-	 * @param cause Origem do erro.
-	 */
 	public DecoderException(byte[] frame, Throwable cause) {
 		super(cause);
 		this.frame	= frame;
 	}
 
-	/**
-	 * @return O {@link #frame}.
-	 */
 	public byte[] getFrame() {
 		return frame;
 	}

@@ -1,12 +1,9 @@
 package br.com.wjrlabs.commom.exceptions;
 
-/**
- * Informa um erro no processamento de dados da sessão.
- *
- */
 public class SessionRuntimeException extends RuntimeException {
 
-	private static final long serialVersionUID = -8298451617157140337L;
+
+	private static final long serialVersionUID = 4571302801732303104L;
 
 	public SessionRuntimeException() {
 		super();

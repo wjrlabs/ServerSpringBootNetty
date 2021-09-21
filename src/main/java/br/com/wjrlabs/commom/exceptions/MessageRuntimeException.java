@@ -1,12 +1,9 @@
 package br.com.wjrlabs.commom.exceptions;
 
-/**
- * Informa um erro no formato da mensagem.
- * 
- */
+
 public class MessageRuntimeException extends RuntimeException {
 
-	private static final long serialVersionUID = 4069555624454885904L;
+	private static final long serialVersionUID = -3522534485486853639L;
 
 	public MessageRuntimeException() {
 		super();

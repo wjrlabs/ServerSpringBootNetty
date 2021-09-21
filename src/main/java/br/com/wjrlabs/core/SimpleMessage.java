@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -11,26 +11,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import br.com.wjrlabs.commom.exceptions.MessageRuntimeException;
 import br.com.wjrlabs.util.ByteHelper;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * Mensagem transmitida pelo comunicador do SCAP. 
- * <p>
- * Todas as mensagens transmitidas devem herdar essa classe e implementar os
- * métodos <>encode</b> e <b>decode</b>, necessários para transformar o objeto
- * em uma matriz de bytes e permitir a transmissão da informação.
- * 
- */
+
+@Getter
+@Setter
 public abstract class SimpleMessage implements Serializable, Message {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5757632109318623084L;
+	private static final long serialVersionUID = 6025068535670247701L;
 
-	/**
-	 * Identificador único de versão da classe.
-	 */
-	
+
 	/**
 	 * Tamanho em bytes da estrutura de dados para {@link Date}.
 	 */
@@ -71,13 +62,6 @@ public abstract class SimpleMessage implements Serializable, Message {
 		this.key	= key;
 	}
 
-	/* (non-Javadoc)
-	 * @see br.com.digicon.scap.comm.common.Message#getKey()
-	 */
-	@Override
-	public MessageKey getKey() {
-		return key;
-	}
 
 	/* (non-Javadoc)
 	 * @see br.com.digicon.scap.comm.common.Message#encode()

@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 /**
  * Interface para auxiliar o gerenciamento de reconciliação.

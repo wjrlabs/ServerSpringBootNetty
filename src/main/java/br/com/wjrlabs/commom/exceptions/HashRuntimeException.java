@@ -1,13 +1,9 @@
 package br.com.wjrlabs.commom.exceptions;
 
 
-/**
- * Informa um erro na formatação de um HASH.
- * 
- */
 public class HashRuntimeException extends RuntimeException {
 
-	private static final long serialVersionUID = -2562883480762946697L;
+	private static final long serialVersionUID = -5333017386175268502L;
 
 	public HashRuntimeException() {
 		super();

@@ -1,4 +1,4 @@
-package br.com.wjrlabs.commom;
+package br.com.wjrlabs.core;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -10,36 +10,34 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import br.com.digicon.digester.AlgorithmType;
-import sun.security.ec.ed.EdDSAParameters.Digester;
-import sun.security.ec.ed.EdDSAParameters.DigesterFactory;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Objeto para gerenciar o recebimento de arquivos do servidor.
  * 
  */
+@Getter
+@Setter
+@Slf4j
 public class FileReceiving {
-
-	/**
-	 * Log da classe.
-	 */
-	private static final Logger logger = Logger.getLogger(FileReceiving.class);
 
 	/**
 	 * Identificador de cada parte do arquivo recebido.
 	 * 
 	 * 
 	 */
+	@Getter
 	public class Partial implements Serializable, Comparable<Partial> {
 
-		/** Identificador único de versão da classe. */
-		private static final long serialVersionUID = 8889316480248407052L;
+		/** Class unique identifier */
+		private static final long serialVersionUID = 8197436242476264595L;
 
 		/**
 		 * Índice da parte.
@@ -60,20 +58,6 @@ public class FileReceiving {
 		public Partial(Short index, byte[] buffer) {
 			this.index	= index;
 			this.buffer	= buffer;
-		}
-
-		/**
-		 * @return index
-		 */
-		public Short getIndex() {
-			return index;
-		}
-
-		/**
-		 * @return buffer
-		 */
-		public byte[] getBuffer() {
-			return buffer;
 		}
 
 		/* (non-Javadoc)
@@ -124,11 +108,6 @@ public class FileReceiving {
 	}
 
 	/**
-	 * Número Sequencial Único associado a operação.
-	 */
-	private int nsu;
-
-	/**
 	 * Identificador único do arquivo.
 	 */
 	private UUID uuid;
@@ -161,7 +140,7 @@ public class FileReceiving {
 	/**
 	 * Cálculo de HASH.
 	 */
-	private Digester digester;
+	//private Digester digester;
 
 	/**
 	 * Guarda o tamanho do arquivo recebido.
@@ -185,7 +164,7 @@ public class FileReceiving {
 	 */
 	public FileReceiving() {
 		this.partials 			= new ArrayList<Partial>();
-		this.digester 			= DigesterFactory.getInstance(AlgorithmType.MD5);
+	//	this.digester 			= DigesterFactory.getInstance(AlgorithmType.MD5);
 		this.received 			= 0;
 		this.permissionsFile	= new HashSet<>();
 		this.permissionsFile.add(PosixFilePermission.OWNER_READ);
@@ -204,93 +183,6 @@ public class FileReceiving {
 		this.permissionsDir.add(PosixFilePermission.OTHERS_EXECUTE);
 	}
 
-	/**
-	 * @return nsu
-	 */
-	public int getNsu() {
-		return nsu;
-	}
-
-	/**
-	 * @param nsu {@link FileReceiving#nsu}
-	 */
-	public void setNsu(int nsu) {
-		this.nsu = nsu;
-	}
-
-	/**
-	 * @return uuid
-	 */
-	public UUID getUuid() {
-		return uuid;
-	}
-
-	/**
-	 * @param uuid {@link FileReceiving#uuid}
-	 */
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
-
-	/**
-	 * @return filename
-	 */
-	public String getFilename() {
-		return filename;
-	}
-
-	/**
-	 * @param filename {@link FileReceiving#filename}
-	 */
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-
-	/**
-	 * @return hash
-	 */
-	public String getHash() {
-		return hash;
-	}
-
-	/**
-	 * @param hash {@link FileReceiving#hash}
-	 */
-	public void setHash(String hash) {
-		this.hash = hash;
-	}
-
-	/**
-	 * @return length
-	 */
-	public int getLength() {
-		return length;
-	}
-
-	/**
-	 * @param length {@link FileReceiving#length}
-	 */
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-	/**
-	 * @return partialLenght
-	 */
-	public short getPartialLenght() {
-		return partialLenght;
-	}
-
-	/**
-	 * @param partialLenght {@link FileReceiving#partialLenght}
-	 */
-	public void setPartialLenght(short partialLenght) {
-		this.partialLenght = partialLenght;
-	}
-	
-	public List<Partial> getPartials() {
-		return this.partials;
-	}
 	
 	/**
 	 * Adiciona uma nova parte do arquivo.
@@ -302,7 +194,7 @@ public class FileReceiving {
 		// Guarda a parte...
 		partials.add(new Partial(index, partial));
 		// Calcula o HASH
-		digester.update(partial);
+		//digester.update(partial);
 		// Guarda o tamanho recebido.
 		received += partial.length;
 	}
@@ -316,26 +208,10 @@ public class FileReceiving {
 		boolean result = false;
 		// Se o tamanho recebido é igual ao tamanho informado pelo módulo...
 		if (received == length) {
-			// Verificar o HASH.
-			result = digester.digest().equalsIgnoreCase(hash);
-			// Se o HASH for inválido, pode ser problema com a ordem das
-			// mensagens.
-			// Recalcular...
-			if (!result) {
-				logger.warn("Hash inválido... reordenando os pacotes e tentando novamente...");
-				Collections.sort(partials);
-				digester.reset();
-				for (Partial partial : partials) {
-					digester.update(partial.getBuffer());
-				}
-				result = digester.digest().equalsIgnoreCase(hash);
-				if (!result) {
-					logger.error("Hash inválido.");
-				}
-				// Se ainda for inválido, talvez falte alguma parte...
-			}
+			//TODO Verificar o HASH.
+
 		} else {
-			logger.error(String.format(
+			log.error(String.format(
 					"Recebido %d bytes mas o tamnho esperado é %d bytes. Tamanho não confere", received,
 					length));
 		}
