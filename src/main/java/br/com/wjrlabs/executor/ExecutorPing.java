@@ -3,7 +3,7 @@ package br.com.wjrlabs.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.wjrlabs.commom.exceptions.CommandRuntimeException;
+import br.com.wjrlabs.commom.exceptions.ExecuteRuntimeException;
 import br.com.wjrlabs.commom.session.DeviceSession;
 import br.com.wjrlabs.commom.session.DeviceSessionManager;
 import br.com.wjrlabs.core.Message;
@@ -16,18 +16,18 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class ExecutorLogin extends SimpleExecutor<MessageEcho, DeviceSession> {
+public class ExecutorPing extends SimpleExecutor<MessageEcho, DeviceSession> {
 
     private DeviceSessionManager sessions;
 
-    public ExecutorLogin() {
+    public ExecutorPing() {
         super(MessageEcho.class);
         try {
             sessions	= DeviceSessionManager.getInstance();
         } catch (Exception e) {
             String error = "Erro ao recupear o objeto remoto";
             log.error(error, e);
-            throw new CommandRuntimeException(error, e);
+            throw new ExecuteRuntimeException(error, e);
         }
     }
 

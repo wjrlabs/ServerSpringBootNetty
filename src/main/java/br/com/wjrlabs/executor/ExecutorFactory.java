@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.wjrlabs.commom.exceptions.CommandRuntimeException;
+import br.com.wjrlabs.commom.exceptions.ExecuteRuntimeException;
 import br.com.wjrlabs.commom.session.DeviceSession;
 import br.com.wjrlabs.core.Message;
 import br.com.wjrlabs.core.MessageKey;
@@ -19,16 +19,16 @@ public class ExecutorFactory {
 
 	private static final Map<MessageKey, Executor<?,?>> keys = new HashMap<MessageKey, Executor<?,?>>();
 
-	public static void register(MessageKey key, Executor<?,?> command) {
+	public static void register(MessageKey key, Executor<?,?> executor) {
 		if (keys.containsKey(key)) {
 			String message = MessageFormat.format("Chave \"{0}\" já está registrada.", key.toString());
 			log.error(message);
-			throw new CommandRuntimeException(message);
+			throw new ExecuteRuntimeException(message);
 		}
 		if (log.isDebugEnabled()) {
-			log.debug(MessageFormat.format("Registrando a chave \"{0}\" com o comando \"{1}\".", key.toString(), command));
+			log.debug("Key \"{}\" to Executor \"{}\".", key.toString(), executor);
 		}
-		keys.put(key, command);		
+		keys.put(key, executor);		
 	}
 	
 	public static void register(Class<? extends Executor<?,?>> clazz) {
@@ -38,14 +38,14 @@ public class ExecutorFactory {
 		} catch (Exception e) {
 			String error = "Erro ao registrar um Command.";
 			log.error(error, e);
-			throw new CommandRuntimeException(error, e);
+			throw new ExecuteRuntimeException(error, e);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static <E extends Message, U extends DeviceSession> Executor<E,U> getInstance(E message) {
 		if (message == null) {
-			throw new CommandRuntimeException("Não foi informada uma mensagem...");
+			throw new ExecuteRuntimeException("Não foi informada uma mensagem...");
 		}
 		Executor<E,U> result = (Executor<E,U>) keys.get(message.getKey());
 		if (log.isTraceEnabled()) {

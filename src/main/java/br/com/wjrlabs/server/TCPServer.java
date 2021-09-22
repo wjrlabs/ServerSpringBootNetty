@@ -42,7 +42,7 @@ public class TCPServer {
     public void start() {
         try {
             ChannelFuture serverChannelFuture = serverBootstrap.bind(tcpPort).sync();
-            log.info("Servidor iniciando : porta {}", tcpPort.getPort());
+            log.info("Server started : port {}", tcpPort.getPort());
             serverChannel = serverChannelFuture.channel().closeFuture().sync().channel();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

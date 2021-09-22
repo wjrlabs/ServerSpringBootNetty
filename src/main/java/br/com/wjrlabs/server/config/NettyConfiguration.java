@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.wjrlabs.executor.ExecutorLogin;
 import br.com.wjrlabs.executor.ExecutorFactory;
+import br.com.wjrlabs.executor.ExecutorPing;
 import br.com.wjrlabs.server.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -33,8 +33,9 @@ public class NettyConfiguration {
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
-                .childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024)
-                .childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
+                //.childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 32 * 1024)
+                //.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024)
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
                 .childHandler(messageHandler);
@@ -61,6 +62,6 @@ public class NettyConfiguration {
     }
 
     private void registerCommands() {
-        ExecutorFactory.register(ExecutorLogin.class);
+        ExecutorFactory.register(ExecutorPing.class);
     }
 }

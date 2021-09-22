@@ -21,12 +21,12 @@ public abstract class MessageFactory {
 	
 	public static void register(MessageKey key, Class<? extends Message> clazz) {
 		if (keys.containsKey(key)) {
-			String message = MessageFormat.format("Chave \"{0}\" já está registrada.", key.toString());
+			String message = MessageFormat.format("Key \"{0}\" already registered.", key.toString());
 			log.error(message);
 			throw new MessageRuntimeException(message);
 		}
-		if (log.isTraceEnabled()) {
-			log.trace(MessageFormat.format("Registrando a chave \"{0}\" com a classe \"{1}\".", key.toString(), clazz.getName()));
+		if (log.isDebugEnabled()) {
+			log.debug("Key \"{}\" to Message \"{}\".", key.toString(), clazz.getName());
 		}
 		keys.put(key, clazz);
 	}
@@ -37,7 +37,7 @@ public abstract class MessageFactory {
 			message = clazz.newInstance();
 			MessageFactory.register(message.getKey(), message.getClass());
 		} catch (Exception e) {
-			String error = "Erro ao registrar a mensagem.";
+			String error = "Error registering message";
 			log.error(error, e);
 			throw new MessageRuntimeException(error, e);
 		}
@@ -49,7 +49,7 @@ public abstract class MessageFactory {
 	
 	public static Message newInstance(byte[] buffer, boolean decode) {
 		if ((buffer == null) || (buffer.length < MessageKey.LENGTH)) {
-			throw new MessageRuntimeException("Tamanho do buffer inválido para encontrar uma Mensagem.");
+			throw new MessageRuntimeException("Invalid buffer - message cannot be found");
 		}
 		Message result 		= null;
 		ByteBuffer readable = ByteBuffer.wrap(buffer, 0, MessageKey.LENGTH);
@@ -58,7 +58,7 @@ public abstract class MessageFactory {
 		MessageKey key 		= new MessageKey(type, version);
 		
 		if (log.isTraceEnabled()) {
-			log.trace(MessageFormat.format("Encontrada a chave {0}.", key.toString()));
+			log.trace("key found {}.", key.toString());
 		}
 		
 		if (keys.containsKey(key)) {
@@ -69,17 +69,17 @@ public abstract class MessageFactory {
 					result.decode(buffer);
 				}
 			} catch (InstantiationException e) {
-				String message = MessageFormat.format("Classe {0} não pode ser inicializada.", clazz.getName());
+				String message = MessageFormat.format("Class {0} cannot be initialized.", clazz.getName());
 				log.error(message, e);
 				throw new MessageRuntimeException(message, e);
 			} catch (IllegalAccessException e) {
-				String message = MessageFormat.format("Classe {0} não possui o formato correto.", clazz.getName());
+				String message = MessageFormat.format("Class {0} - invalid format", clazz.getName());
 				log.error(message, e);
 				throw new MessageRuntimeException(message, e);
 			}
 			
 			if (log.isTraceEnabled()) {
-				log.trace(MessageFormat.format("Mensagem fabricada: {0}.", result.toString()));
+				log.trace("Message assembled: {}.", result.toString());
 			}
 		}
 		
