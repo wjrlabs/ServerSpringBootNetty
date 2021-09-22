@@ -3,7 +3,8 @@ package br.com.wjrlabs.commom.session;
 import java.io.Serializable;
 
 
-/*
+/**
+ * @author Wagner Alves
  * Device session representation
  */
 public class DeviceSession implements Serializable{

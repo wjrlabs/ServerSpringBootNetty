@@ -1,10 +1,10 @@
 package br.com.wjrlabs.exceptions;
 
-public class SPTCommInternalError extends RuntimeException {
+public class ServerInternalError extends RuntimeException {
 
 	private static final long serialVersionUID = -5624489948612686514L;
 
-	public SPTCommInternalError(String message) {
+	public ServerInternalError(String message) {
 		super(message);
 	}
 

@@ -6,7 +6,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 
-import br.com.wjrlabs.server.tcp.TCPServer;
+import br.com.wjrlabs.server.TCPServer;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

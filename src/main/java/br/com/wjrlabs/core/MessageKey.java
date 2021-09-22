@@ -8,24 +8,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Identificador de mensagem, que é composto por:
+ * Message Identification
  * 
  * <p>
  * <table border="1">
  * 	<th>
  * 		<tr>
- * 			<td><b>Tamanho (bytes)</b></td>
- * 			<td><b>Descrição</b></td>
+ * 			<td><b>Size (bytes)</b></td>
+ * 			<td><b>Description</b></td>
  * 		</tr>
  * 	</th>
  * 	<tb>
  * 		<tr>
  * 			<td>1</td>
- * 			<td>Identificação da Mensagem.</td>
+ * 			<td>Message ID</td>
  * 		</tr>
  * 		<tr>
  * 			<td>1</td>
- * 			<td>Versão do protocolo.</td>
+ * 			<td>Protocol version</td>
  * 		</tr>
  * 	</tb>
  * </table>
@@ -36,42 +36,17 @@ import lombok.Setter;
 @Setter
 public class MessageKey implements Serializable {
 
-	/**
-	 * Identificador único a classe
-	 */
-	private static final long serialVersionUID = -563556088778195033L;
+	private static final long serialVersionUID = -5130447995235323090L;
 
-
-	/**
-	 * Tamanho da chave, em bytes.
-	 */
 	public static final int LENGTH = 2;
-	
-	/**
-	 * Tipo de Mensagem.
-	 */
 	private MessageType type;
-	
-	/**
-	 * Versão da Mensagem.
-	 */
 	private byte version;
 	
-	/**
-	 * Construtor da Chave de Mensagem.
-	 * @param type Tipo de Mensagem.
-	 * @param version Versão da Mensgaem.
-	 */
 	public MessageKey(MessageType type, byte version) {
 		this.type		= type;
 		this.version	= version;
 	}
 
-	
-	/**
-	 * Codifica a chave em uma matriz de bytes para o formato das mensagens.
-	 * @return byte[]
-	 */
 	public byte[] encode() {
 		ByteBuffer buffer = ByteBuffer.allocate(LENGTH);
 
@@ -82,9 +57,6 @@ public class MessageKey implements Serializable {
 		return buffer.array();
 	}	
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -94,9 +66,6 @@ public class MessageKey implements Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

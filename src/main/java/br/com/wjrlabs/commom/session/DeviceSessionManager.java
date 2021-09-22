@@ -1,7 +1,9 @@
 package br.com.wjrlabs.commom.session;
 
-/*
+/**
+ * @author Wagner Alves
  * Device Session Manager
+ * 
  */
 public class DeviceSessionManager implements ManageableSession {
 	

@@ -6,7 +6,7 @@ import br.com.wjrlabs.codecs.exceptions.DecoderException;
 import br.com.wjrlabs.commom.session.DeviceSessionManager;
 import br.com.wjrlabs.core.Message;
 import br.com.wjrlabs.core.MessageFactory;
-import br.com.wjrlabs.messages.MessageTransaction;
+import br.com.wjrlabs.messages.MessageEcho;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -25,7 +25,7 @@ public class DecoderMessage extends MessageToMessageDecoder<byte[]> {
 	public DecoderMessage() {
 		manager = DeviceSessionManager.getInstance();
 
-		MessageFactory.register(MessageTransaction.class);
+		MessageFactory.register(MessageEcho.class);
 	}
 
 	@Override

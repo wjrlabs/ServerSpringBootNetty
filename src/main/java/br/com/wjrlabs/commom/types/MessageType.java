@@ -5,14 +5,16 @@ import java.text.MessageFormat;
 import br.com.wjrlabs.commom.exceptions.InternalRuntimeException;
 import lombok.Getter;
 
-
+/**
+ * @author Wagner Alves
+ *
+ */
 @Getter
 public enum MessageType {
 	/**
-	 * Login message
+	 * Echo message
 	 */
-	LOGIN(0x01);
-	
+	ECHO(0x01);
 
 	private byte value;
 	
@@ -20,8 +22,6 @@ public enum MessageType {
 	private MessageType(int value) {
 		this.value = (byte) value;
 	}
-	
-	
 
 	public static MessageType valueOf(byte value) {
 		MessageType result = null;

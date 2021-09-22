@@ -1,5 +1,10 @@
 package br.com.wjrlabs.commom.session;
 
+/**
+ * 
+ * @author Wagner Alves
+ *
+ */
 public interface ManageableSession {
 	public DeviceSession getSessionID(Integer value);
 

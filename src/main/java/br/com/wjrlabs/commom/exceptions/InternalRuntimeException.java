@@ -1,5 +1,10 @@
 package br.com.wjrlabs.commom.exceptions;
 
+/**
+ * 
+ * @author Wagner Alves
+ *
+ */
 public class InternalRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = 2704805164748365844L;

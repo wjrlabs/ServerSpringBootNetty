@@ -1,7 +1,11 @@
 package br.com.wjrlabs.commom.exceptions;
 
+/**
+ * 
+ * @author Wagner Alves
+ *
+ */
 public class SessionRuntimeException extends RuntimeException {
-
 
 	private static final long serialVersionUID = 4571302801732303104L;
 

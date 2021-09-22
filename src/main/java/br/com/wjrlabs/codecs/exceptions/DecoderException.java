@@ -6,7 +6,6 @@ import lombok.Getter;
 /**
  * 
  * @author Wagner Alves
- * 
  * Handle decoding excpetions
  *
  */

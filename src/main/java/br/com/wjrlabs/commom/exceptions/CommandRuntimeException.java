@@ -1,6 +1,10 @@
 package br.com.wjrlabs.commom.exceptions;
 
-
+/**
+ * 
+ * @author Wagner Alves
+ *
+ */
 public class CommandRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = -5333017386175268502L;

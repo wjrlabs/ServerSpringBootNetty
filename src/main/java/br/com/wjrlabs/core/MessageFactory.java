@@ -10,23 +10,15 @@ import br.com.wjrlabs.commom.types.MessageType;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Fábrica de mensagens, identificadas por suas chaves {@link MessageKey}.
+ * @author Wagner Alves
+ * Message Factory, identified by key {@link MessageKey}.
  *
  */
 @Slf4j
 public abstract class MessageFactory {
 
-	
-	/**
-	 * Tipos de mensagens registrados na fábrica.
-	 */
 	private static final Map<MessageKey, Class<? extends Message>> keys = new HashMap<MessageKey, Class<? extends Message>>();
 	
-	/**
-	 * Registra uma nova chave de mensagem para a fábrica poder devolver.
-	 * @param key {@link MessageKey}.
-	 * @param clazz Classe que implemente {@link Message}
-	 */
 	public static void register(MessageKey key, Class<? extends Message> clazz) {
 		if (keys.containsKey(key)) {
 			String message = MessageFormat.format("Chave \"{0}\" já está registrada.", key.toString());
@@ -39,10 +31,6 @@ public abstract class MessageFactory {
 		keys.put(key, clazz);
 	}
 	
-	/**
-	 * Registra uma nova mensagem para a fábrica poder devolver.
-	 * @param clazz Classe para {@link Message}
-	 */
 	public static void register(Class<? extends Message> clazz) {
 		Message message;
 		try {
@@ -55,22 +43,10 @@ public abstract class MessageFactory {
 		}
 	}
 	
-	/**
-	 * Cria um novo objeto de mensagem e decodifica os bytes para
-	 * preencher os campos do objeto.
-	 * @param buffer Matriz de bytes (byte[]) para decompor em uma mensagem.
-	 * @return {@link Message}
-	 */
 	public static Message newInstance(byte[] buffer) {
 		return MessageFactory.newInstance(buffer, true);
 	}
 	
-	/**
-	 * Cria um novo objeto de mensagem.
-	 * @param buffer Matriz de bytes (byte[]) para decompor em uma mensagem.
-	 * @param decode Se verdadeiro, a mensagem é preenchida, senão, é criada um mensagem vazia.
-	 * @return {@link Message}
-	 */
 	public static Message newInstance(byte[] buffer, boolean decode) {
 		if ((buffer == null) || (buffer.length < MessageKey.LENGTH)) {
 			throw new MessageRuntimeException("Tamanho do buffer inválido para encontrar uma Mensagem.");

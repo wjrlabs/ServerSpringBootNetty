@@ -1,10 +1,5 @@
 package br.com.wjrlabs.codecs;
 
-import java.text.MessageFormat;
-
-import org.springframework.boot.web.servlet.server.Session;
-
-import br.com.wjrlabs.commom.session.DeviceSession;
 import br.com.wjrlabs.commom.session.DeviceSessionManager;
 import br.com.wjrlabs.core.Message;
 import io.netty.buffer.ByteBuf;
@@ -14,6 +9,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * @author Wagner Alves
  * Transform {@link Message} to byte array
  */
 @Slf4j

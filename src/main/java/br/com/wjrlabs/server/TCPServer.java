@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.wjrlabs.server.tcp;
+package br.com.wjrlabs.server;
 
 import java.net.InetSocketAddress;
 
@@ -21,7 +21,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.exceptions.SPTCommInternalError;
+import br.com.wjrlabs.exceptions.ServerInternalError;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -47,11 +47,11 @@ public class TCPServer {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.error(e.getMessage());
-            throw new SPTCommInternalError(e.getMessage());
+            throw new ServerInternalError(e.getMessage());
         }
         catch (Exception e) {
             log.error(e.getMessage());
-            throw new SPTCommInternalError(e.getMessage());
+            throw new ServerInternalError(e.getMessage());
 		}
     }
 
@@ -64,7 +64,7 @@ public class TCPServer {
             }
 		} catch (Exception e) {
             log.error(e.getMessage());
-            throw new SPTCommInternalError(e.getMessage());
+            throw new ServerInternalError(e.getMessage());
 		}
 
     }
