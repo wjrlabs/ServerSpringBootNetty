@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Sharable
-public class DecoderMessage extends MessageToMessageDecoder<byte[]> {
+public class MessageDecoder extends MessageToMessageDecoder<byte[]> {
 
 	private DeviceSessionManager manager;
 
-	public DecoderMessage() {
+	public MessageDecoder() {
 		manager = DeviceSessionManager.getInstance();
 
 		MessageFactory.register(MessageEcho.class);

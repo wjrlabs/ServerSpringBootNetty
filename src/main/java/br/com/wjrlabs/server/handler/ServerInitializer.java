@@ -2,8 +2,8 @@ package br.com.wjrlabs.server.handler;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.codecs.DecoderMessage;
-import br.com.wjrlabs.codecs.EncoderMessage;
+import br.com.wjrlabs.codecs.MessageDecoder;
+import br.com.wjrlabs.codecs.MessageEncoder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 	
-	private static final DecoderMessage DECODERMESSAGE = new DecoderMessage();
+	private static final MessageDecoder DECODERMESSAGE = new MessageDecoder();
 	
-	private static final EncoderMessage ENCODERMESSAGE = new EncoderMessage();
+	private static final MessageEncoder ENCODERMESSAGE = new MessageEncoder();
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {

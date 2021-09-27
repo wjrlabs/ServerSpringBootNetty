@@ -1,11 +1,12 @@
 package br.com.wjrlabs.server.handler;
 
 import java.net.SocketAddress;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import br.com.wjrlabs.commom.session.DeviceSessionManager;
-import br.com.wjrlabs.executor.ExecutorFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -43,8 +44,22 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.debug("ChannelHandlerContext: {}.", ctx.toString());
 
-        ExecutorFactory.getInstance(msg);
+        //ExecutorFactory.getInstance(msg);
     	ByteBuf in = (ByteBuf) msg;
+    	if (in.hasArray()) {
+            log.debug("hasArray true");
+    		byte[] array = in.array();
+    		int offset = in.arrayOffset() + in.readerIndex();
+    		int length = in.readableBytes();
+    		handleArray(array, offset, length);
+    	}else {
+            log.debug("hasArray false");
+
+    		int length = in.readableBytes();
+    		byte[] array = new byte[length];
+    		in.getBytes(in.readerIndex(), array);
+    		handleArray(array, 0, length);
+    	}
         if (log.isDebugEnabled()) {
             log.debug("Received Message: {}.", msg.toString());
 			for (int i = 0; i < in.capacity(); i++) {
@@ -55,7 +70,21 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         ctx.write(in);
     }
 
-    @Override
+    private void handleArray(byte[] array, int offset, int length) {
+		log.debug("handleArray");
+		log.debug("offset {}",offset);
+		log.debug("length {}",length);
+		log.debug("array:");
+		if(log.isDebugEnabled()) {
+			for (int i = 0; i < array.length; i++) {
+				System.out.print(String.format("%02X", i));
+			}
+		}
+	
+		
+	}
+
+	@Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("channelReadComplete {}", ctx);

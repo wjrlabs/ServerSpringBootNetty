@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.wjrlabs.executor.ExecutorFactory;
-import br.com.wjrlabs.executor.ExecutorPing;
+import br.com.wjrlabs.executor.ExecutorEcho;
 import br.com.wjrlabs.server.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -62,6 +62,6 @@ public class NettyConfiguration {
     }
 
     private void registerCommands() {
-        ExecutorFactory.register(ExecutorPing.class);
+        ExecutorFactory.register(ExecutorEcho.class);
     }
 }

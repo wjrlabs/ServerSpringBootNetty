@@ -1,6 +1,6 @@
 package br.com.wjrlabs.core;
 
-public interface Message {
+public interface Message{
 
 	public static final byte VERSION = 1;
 

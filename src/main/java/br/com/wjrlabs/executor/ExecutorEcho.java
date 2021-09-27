@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class ExecutorPing extends SimpleExecutor<MessageEcho, DeviceSession> {
+public class ExecutorEcho extends SimpleExecutor<MessageEcho, DeviceSession> {
 
     private DeviceSessionManager sessions;
 
-    public ExecutorPing() {
+    public ExecutorEcho() {
         super(MessageEcho.class);
         try {
             sessions	= DeviceSessionManager.getInstance();

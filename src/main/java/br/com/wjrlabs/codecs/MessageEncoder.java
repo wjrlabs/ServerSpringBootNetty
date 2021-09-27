@@ -14,11 +14,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Sharable
-public class EncoderMessage extends MessageToByteEncoder<Message> {
+public class MessageEncoder extends MessageToByteEncoder<Message> {
 
 	private DeviceSessionManager manager;
 
-	public EncoderMessage() {
+	public MessageEncoder() {
 		manager = DeviceSessionManager.getInstance();
 	}
 

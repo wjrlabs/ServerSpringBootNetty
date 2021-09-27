@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 public abstract class SimpleMessage implements Serializable, Message {
 
-	private static final long serialVersionUID = 6025068535670247701L;
+	private static final long serialVersionUID = -5906304909221885801L;
 
 	private static final int DATE_STRUCT_LENGTH = 6;
 
