@@ -5,6 +5,7 @@ import java.net.SocketAddress;
 import org.springframework.stereotype.Component;
 
 import br.com.wjrlabs.commom.session.DeviceSessionManager;
+import br.com.wjrlabs.executor.ExecutorFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -40,6 +41,9 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        log.debug("ChannelHandlerContext: {}.", ctx.toString());
+
+        ExecutorFactory.getInstance(msg);
     	ByteBuf in = (ByteBuf) msg;
         if (log.isDebugEnabled()) {
             log.debug("Received Message: {}.", msg.toString());
