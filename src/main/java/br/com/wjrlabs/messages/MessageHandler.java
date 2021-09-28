@@ -1,16 +1,13 @@
-package br.com.wjrlabs.server.handler;
+package br.com.wjrlabs.messages;
 
 import java.net.SocketAddress;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.commom.session.DeviceSessionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,14 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @ChannelHandler.Sharable
-public class MessageHandler extends ChannelInboundHandlerAdapter {
-
-    private DeviceSessionManager manager;
+public class MessageHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         SocketAddress address = ctx.channel().remoteAddress();
-        log.info("Conectado com {}.", address);
+        log.info("Connecting with {}.", address);
     }
 
     @Override
@@ -38,37 +33,9 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
 		if (log.isDebugEnabled()) {
 			log.debug("channelInactive");
 		}
+        log.info("{} disconnected!", ctx.channel().remoteAddress());
+
 	}
-    
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.debug("ChannelHandlerContext: {}.", ctx.toString());
-
-        //ExecutorFactory.getInstance(msg);
-    	ByteBuf in = (ByteBuf) msg;
-    	if (in.hasArray()) {
-            log.debug("hasArray true");
-    		byte[] array = in.array();
-    		int offset = in.arrayOffset() + in.readerIndex();
-    		int length = in.readableBytes();
-    		handleArray(array, offset, length);
-    	}else {
-            log.debug("hasArray false");
-
-    		int length = in.readableBytes();
-    		byte[] array = new byte[length];
-    		in.getBytes(in.readerIndex(), array);
-    		handleArray(array, 0, length);
-    	}
-        if (log.isDebugEnabled()) {
-            log.debug("Received Message: {}.", msg.toString());
-			for (int i = 0; i < in.capacity(); i++) {
-				byte b = in.getByte(i);
-				System.out.print((char) b);
-			}
-        }
-        ctx.write(in);
-    }
 
     private void handleArray(byte[] array, int offset, int length) {
 		log.debug("handleArray");
@@ -80,7 +47,6 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
 				System.out.print(String.format("%02X", i));
 			}
 		}
-	
 		
 	}
 
@@ -96,4 +62,28 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     	log.error("exceptionCaught {}",cause);
     }
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+        log.debug("channelRead0: {}.", ctx.toString());
+
+    	ByteBuf in = (ByteBuf) msg;
+    	if (in.hasArray()) {
+            log.debug("hasArray true");
+    		byte[] array = in.array();
+    		int offset = in.arrayOffset() + in.readerIndex();
+    		int length = in.readableBytes();
+    		handleArray(array, offset, length);
+    	}else {
+            log.debug("hasArray false");
+
+    		int length = in.readableBytes();
+    		byte[] array = new byte[length];
+    		in.getBytes(in.readerIndex(), array);
+    		handleArray(array, 0, length);
+    	}
+        ctx.write(in);
+    		
+	}
 }

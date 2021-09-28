@@ -1,5 +1,5 @@
 
-package br.com.wjrlabs.server.config;
+package br.com.wjrlabs.config;
 
 import lombok.Getter;
 import lombok.Setter;

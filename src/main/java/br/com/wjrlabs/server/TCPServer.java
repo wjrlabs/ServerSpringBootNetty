@@ -21,7 +21,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.exceptions.ServerInternalError;
+import br.com.wjrlabs.commom.exceptions.InternalRuntimeException;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -47,11 +47,11 @@ public class TCPServer {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.error(e.getMessage());
-            throw new ServerInternalError(e.getMessage());
+            throw new InternalRuntimeException(e.getMessage());
         }
         catch (Exception e) {
             log.error(e.getMessage());
-            throw new ServerInternalError(e.getMessage());
+            throw new InternalRuntimeException(e.getMessage());
 		}
     }
 
@@ -64,7 +64,7 @@ public class TCPServer {
             }
 		} catch (Exception e) {
             log.error(e.getMessage());
-            throw new ServerInternalError(e.getMessage());
+            throw new InternalRuntimeException(e.getMessage());
 		}
 
     }

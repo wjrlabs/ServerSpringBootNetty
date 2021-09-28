@@ -1,5 +1,5 @@
 
-package br.com.wjrlabs.server.config;
+package br.com.wjrlabs.config;
 
 import java.net.InetSocketAddress;
 
@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.wjrlabs.executor.ExecutorFactory;
-import br.com.wjrlabs.executor.ExecutorEcho;
-import br.com.wjrlabs.server.handler.MessageHandler;
+import br.com.wjrlabs.server.handler.ServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -27,7 +25,7 @@ public class NettyConfiguration {
     private final NettyProperties nettyProperties;
 
     @Bean(name = "serverBootstrap")
-    public ServerBootstrap bootstrap(MessageHandler messageHandler) {
+    public ServerBootstrap bootstrap(ServerInitializer serverInitializer) {
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
@@ -38,10 +36,8 @@ public class NettyConfiguration {
                 //.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 8 * 1024)
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .handler(new LoggingHandler(LogLevel.DEBUG))
-                .childHandler(messageHandler);
+                .childHandler(serverInitializer);
         b.option(ChannelOption.SO_BACKLOG, nettyProperties.getBacklog());
-        
-        registerCommands();
         
         return b;
     }
@@ -61,7 +57,4 @@ public class NettyConfiguration {
         return new InetSocketAddress(nettyProperties.getTcpPort());
     }
 
-    private void registerCommands() {
-        ExecutorFactory.register(ExecutorEcho.class);
-    }
 }

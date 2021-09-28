@@ -2,8 +2,7 @@ package br.com.wjrlabs.server.handler;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.codecs.MessageDecoder;
-import br.com.wjrlabs.codecs.MessageEncoder;
+import br.com.wjrlabs.messages.MessageHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -20,17 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 	
-	private static final MessageDecoder DECODERMESSAGE = new MessageDecoder();
-	
-	private static final MessageEncoder ENCODERMESSAGE = new MessageEncoder();
-
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-		// Decoders:
-		pipeline.addLast(DECODERMESSAGE);
+      //  pipeline.addLast(new DelimiterBasedFrameDecoder(1024 * 1024, Delimiters.lineDelimiter()));
+
+	//	pipeline.addLast(DECODERMESSAGE);
 		// Encoders:
-		pipeline.addLast(ENCODERMESSAGE);
+	//	pipeline.addLast(ENCODERMESSAGE);
 		// Regra de negócio:
 		pipeline.addLast(new MessageHandler());
 	}
