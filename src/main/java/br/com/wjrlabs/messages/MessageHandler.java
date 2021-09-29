@@ -5,9 +5,11 @@ import java.net.SocketAddress;
 import org.springframework.stereotype.Component;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.CharsetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,12 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @ChannelHandler.Sharable
-public class MessageHandler extends SimpleChannelInboundHandler<Object> {
+public class MessageHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         SocketAddress address = ctx.channel().remoteAddress();
         log.info("Connecting with {}.", address);
+    
     }
 
     @Override
@@ -37,26 +40,6 @@ public class MessageHandler extends SimpleChannelInboundHandler<Object> {
 
 	}
 
-    private void handleArray(byte[] array, int offset, int length) {
-		log.debug("handleArray");
-		log.debug("offset {}",offset);
-		log.debug("length {}",length);
-		log.debug("array:");
-		if(log.isDebugEnabled()) {
-			for (int i = 0; i < array.length; i++) {
-				System.out.print(String.format("%02X", i));
-			}
-		}
-		
-	}
-
-	@Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("channelReadComplete {}", ctx);
-        }
-        ctx.flush();
-    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -64,26 +47,15 @@ public class MessageHandler extends SimpleChannelInboundHandler<Object> {
     }
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
 
-        log.debug("channelRead0: {}.", ctx.toString());
+		ByteBuf newBF=Unpooled.copiedBuffer(msg);
+        log.debug("ChannelHandlerContext channelRead0: {}.", ctx.toString());
 
-    	ByteBuf in = (ByteBuf) msg;
-    	if (in.hasArray()) {
-            log.debug("hasArray true");
-    		byte[] array = in.array();
-    		int offset = in.arrayOffset() + in.readerIndex();
-    		int length = in.readableBytes();
-    		handleArray(array, offset, length);
-    	}else {
-            log.debug("hasArray false");
+        log.debug("ByteBuf channelRead0: {}	", msg.toString(CharsetUtil.UTF_8));
+        
+        ctx.writeAndFlush(newBF);    
 
-    		int length = in.readableBytes();
-    		byte[] array = new byte[length];
-    		in.getBytes(in.readerIndex(), array);
-    		handleArray(array, 0, length);
-    	}
-        ctx.write(in);
-    		
+        
 	}
 }
