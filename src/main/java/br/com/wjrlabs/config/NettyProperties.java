@@ -31,4 +31,8 @@ public class NettyProperties {
 
     @NotNull
     private int backlog;
+    
+    @NotNull
+    @Size(min=100, max=(10000))
+    private int packageSize;
 }

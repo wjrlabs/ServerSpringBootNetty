@@ -19,7 +19,6 @@ public class ApplicationServer {
 
 	private final TCPServer tcpServer;
 
-	@SuppressWarnings({ "Convert2Lambda", "java:S1604" })
 	@Bean
 	public ApplicationListener<ApplicationReadyEvent> readyEventApplicationListener() {
 		return new ApplicationListener<ApplicationReadyEvent>() {
