@@ -3,6 +3,8 @@ package br.com.wjrlabs.util;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
+import io.netty.buffer.ByteBuf;
+
 public class ByteHelper {
 
 	public static enum DumpMode {
@@ -31,8 +33,25 @@ public class ByteHelper {
 			return dumpHexa(buffer, columns, "", "", "", "", "", "", "", " ", "\n", "");
 		}
 	}
+	
+	public static byte[] getReadableBytes(ByteBuf in) {
+		byte[] array;
+		int offset;
+		int length;
+		if (in.hasArray()) {
+			array = in.array();
+			offset = in.arrayOffset() + in.readerIndex();
+			length = in.readableBytes();
+		}else {
+			offset=0;
+			length = in.readableBytes();
+			array = new byte[length];
+			in.getBytes(in.readerIndex(), array);
+		}
+		return Arrays.copyOfRange(array, offset, (offset+length));
+	}
 
-    public static byte[ ] concatenate( byte[ ]... byteArrays ) {
+	public static byte[ ] concatenate( byte[ ]... byteArrays ) {
         int tmpResultLength = 0;
         for ( byte[ ] tmpByteArray : byteArrays ) {
             if ( tmpByteArray != null ) {
