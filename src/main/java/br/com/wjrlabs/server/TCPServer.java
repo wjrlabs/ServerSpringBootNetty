@@ -21,7 +21,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.commom.exceptions.InternalRuntimeException;
+import br.com.wjrlabs.exceptions.InternalRuntimeException;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
