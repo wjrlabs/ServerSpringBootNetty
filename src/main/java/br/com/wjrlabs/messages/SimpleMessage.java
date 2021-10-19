@@ -17,12 +17,6 @@ public abstract class SimpleMessage implements Message,Serializable {
 	
 	protected byte protocolVersion;
 	
-		@Override
-	public abstract byte[] encode();
-	
-	@Override
-	public abstract void decode(byte[] buffer);
-	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();

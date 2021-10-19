@@ -24,7 +24,6 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-		//TODO limitar tamanho do pacote em 1024 bytes ida e volta.
 		pipeline.addLast(MESSAGE_DECODER);
 		pipeline.addLast(MESSAGE_ENCODER);
 		pipeline.addLast(new MessageHandler());

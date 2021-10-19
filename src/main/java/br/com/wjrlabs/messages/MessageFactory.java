@@ -27,7 +27,7 @@ public class MessageFactory {
 			return new MessageEcho(readableBytes);
 			
 		case NACK:
-			log.debug("MessageType ECHO");
+			log.debug("MessageType NACK");
 			return new MessageNack();
 			
 		default:
