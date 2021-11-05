@@ -1,4 +1,4 @@
-package br.com.wjrlabs.messages;
+package br.com.wjrlabs.messages.common;
 
 import lombok.Getter;
 

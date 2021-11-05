@@ -1,4 +1,4 @@
-package br.com.wjrlabs.messages;
+package br.com.wjrlabs.messages.common;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,16 +11,15 @@ public enum MessageType {
 
 	NACK(0xEE,0xEE, MessageNack.class.getName()),
 	ECHO(0x01,0x01,MessageEcho.class.getName());
-
-
-	private short idRequest;
-	private short idResponse;
+	
+	private short requestId;
+	private short responseId;
 	private String refClassname;
 	private static final Map<String, MessageType> ENUM_MAP;
 
-	MessageType(int idRequest,int idResponse,String refClassname) {
-		this.idRequest=(byte)idRequest;
-		this.idResponse=(byte)idResponse;
+	MessageType(int requestId,int responseId,String refClassname) {
+		this.requestId=(byte)requestId;
+		this.responseId=(byte)responseId;
 		this.refClassname = refClassname;
 	}
 
@@ -39,7 +38,7 @@ public enum MessageType {
 	public static MessageType valueOf(byte value) {
 		MessageType result = null;
 		for (MessageType item : MessageType.values()) {
-			if (item.getIdRequest() == value) {
+			if (item.getRequestId() == value) {
 				result = item;
 				break;
 			}
@@ -47,11 +46,14 @@ public enum MessageType {
 		return result;
 	}
 
-	public byte getIdRequest() {
-		return (byte) (idRequest & 0xFF);
+	public byte getRequestId() {
+		return (byte) (requestId & 0xFF);
 	}
 
-	public byte getIdResponse() {
-		return (byte) (idResponse & 0xFF);
+	public byte getResponseId() {
+		return (byte) (responseId & 0xFF);
+	}
+	public String getClassName() {
+		return this.refClassname;
 	}
 }

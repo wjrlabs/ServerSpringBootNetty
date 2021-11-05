@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.messages.MessageType;
-import br.com.wjrlabs.messages.SimpleMessage;
+import br.com.wjrlabs.messages.common.MessageType;
+import br.com.wjrlabs.messages.protocol.SimpleMessage;
 import lombok.Getter;
 
 @Component
@@ -17,7 +17,7 @@ public class MessageNack extends SimpleMessage implements Serializable {
 	}
 	private static final long serialVersionUID = 9148098646537480364L;
 
-	private static final byte RETORNO = MessageType.NACK.getIdResponse();
+	private static final byte RETORNO = MessageType.NACK.getResponseId();
 
 	@Override
 	public byte[] encode() {

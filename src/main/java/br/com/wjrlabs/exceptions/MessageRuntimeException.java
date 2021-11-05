@@ -5,7 +5,7 @@ package br.com.wjrlabs.exceptions;
  * @author Wagner Alves
  *
  */
-public class MessageRuntimeException extends RuntimeException implements SpringBootNettyExceptions {
+public class MessageRuntimeException extends RuntimeException implements ServerSpringBootNettyExceptions {
 
 	private static final long serialVersionUID = -3522534485486853639L;
 

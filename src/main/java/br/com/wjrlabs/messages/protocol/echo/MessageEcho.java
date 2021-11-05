@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wjrlabs.messages.MessageType;
-import br.com.wjrlabs.messages.SimpleMessage;
+import br.com.wjrlabs.messages.common.MessageType;
+import br.com.wjrlabs.messages.protocol.SimpleMessage;
 import lombok.Getter;
 
 @Component
