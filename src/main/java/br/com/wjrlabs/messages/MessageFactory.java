@@ -1,17 +1,30 @@
 package br.com.wjrlabs.messages;
 
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import br.com.wjrlabs.messages.common.MessageType;
 import br.com.wjrlabs.messages.protocol.echo.MessageEcho;
 import br.com.wjrlabs.messages.protocol.nack.MessageNack;
-import br.com.wjrlabs.util.ByteHelper;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import lombok.extern.slf4j.Slf4j;
 
+@Component
+@Scope("singleton")
 @Slf4j
 public class MessageFactory {
 
-	public static Message newInstance(ByteBuf in) {
+	private final AutowireCapableBeanFactory beanFactory;
+	
+	public MessageFactory(AutowireCapableBeanFactory beanFactory ) {
+		this.beanFactory=beanFactory;
+	}
+	 
+	public Message getMessage(ByteBuf in) {
 		
-		byte[] readableBytes =ByteHelper.getReadableBytes(in);
+		byte[] readableBytes =ByteBufUtil.getBytes(in);
 		
 		if (readableBytes==null) {
 			return new MessageNack();
@@ -24,11 +37,15 @@ public class MessageFactory {
 		switch (MessageType.valueOf(readableBytes[0])) {
 		case ECHO:
 			log.debug("MessageType ECHO");
-			return new MessageEcho(readableBytes);
+			MessageEcho messageEcho= new MessageEcho(readableBytes);
+			beanFactory.autowireBean(messageEcho);
+			return messageEcho;
 			
 		case NACK:
-			log.debug("MessageType NACK");
-			return new MessageNack();
+			log.debug("MessageType ECHO");
+			MessageNack messageNack= new MessageNack();
+			beanFactory.autowireBean(messageNack);
+			return messageNack;
 			
 		default:
 			return new MessageNack();
