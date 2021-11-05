@@ -1,9 +1,11 @@
-package br.com.wjrlabs.messages;
+package br.com.wjrlabs.messages.protocol;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
 
 import br.com.wjrlabs.exceptions.MessageRuntimeException;
+import br.com.wjrlabs.messages.Message;
+import br.com.wjrlabs.messages.common.MessageType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
@@ -16,6 +18,12 @@ public abstract class SimpleMessage implements Message,Serializable {
 	protected byte[] message;
 	
 	protected byte protocolVersion;
+	
+		@Override
+	public abstract byte[] encode();
+	
+	@Override
+	public abstract void decode(byte[] buffer);
 	
 	@Override
 	public String toString() {

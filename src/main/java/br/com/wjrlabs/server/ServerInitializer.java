@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.wjrlabs.codecs.MessageDecoder;
 import br.com.wjrlabs.codecs.MessageEncoder;
+import br.com.wjrlabs.messages.MessageFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -18,17 +19,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 	
-	private static final MessageDecoder MESSAGE_DECODER = new MessageDecoder();
-	private static final MessageEncoder MESSAGE_ENCODER = new MessageEncoder();
-
+	private static MessageEncoder MESSAGE_DECODER=new MessageEncoder();
+	private final MessageHandler messageHandler;
+	private final MessageFactory messageFactory;
+	
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
+		
 		ChannelPipeline pipeline = ch.pipeline();
 		pipeline.addLast(MESSAGE_DECODER);
-		pipeline.addLast(MESSAGE_ENCODER);
-		pipeline.addLast(new MessageHandler());
-
-
-		pipeline.addLast(new MessageHandler());
+		pipeline.addLast(new MessageDecoder(messageFactory));
+		pipeline.addLast(messageHandler);
 	}
 }

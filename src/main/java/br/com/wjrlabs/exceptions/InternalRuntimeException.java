@@ -5,7 +5,7 @@ package br.com.wjrlabs.exceptions;
  * @author Wagner Alves
  *
  */
-public class InternalRuntimeException extends RuntimeException implements SpringBootNettyExceptions {
+public class InternalRuntimeException extends RuntimeException implements ServerSpringBootNettyExceptions {
 
 	private static final long serialVersionUID = 2704805164748365844L;
 
